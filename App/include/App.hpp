@@ -11,6 +11,8 @@ public:
     void setup() override;
     void update(float t, float dt) override;
     void draw() const override;
+    void KeyPressed(int key_pressed) override;
+    void KeyReleased(int key_released) override;
 
 private:
     Vector2 ballPosition = {};

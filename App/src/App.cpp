@@ -1,5 +1,7 @@
 #include "App.hpp"
 
+#include <iostream>
+
 void App::setup()
 {
     // Window initialization
@@ -10,7 +12,7 @@ void App::setup()
     constexpr int screenHeight = 720;
 
     SetConfigFlags(FLAG_MSAA_4X_HINT);
-    InitWindow(screenWidth, screenHeight, "raylib [shapes] example - bouncing ball");
+    InitWindow(screenWidth, screenHeight, "RayApp Example");
 
     // Ball initialization
     ballPosition = {
@@ -25,10 +27,20 @@ void App::setup()
     framesCounter = 0;
 }
 
+void App::KeyPressed(const int key_pressed)
+{
+    std::cout << "Key pressed: " << key_pressed << "\n";
+    if (key_pressed == KEY_SPACE)
+        pause = !pause;
+}
+
+void App::KeyReleased(const int key_released)
+{
+    std::cout << "Key released: " << key_released << "\n";
+}
+
 void App::update(const float t, const float dt)
 {
-    if (IsKeyPressed(KEY_SPACE)) pause = !pause;
-
     if (!pause)
     {
         ballPosition.x += ballSpeed.x * dt;
