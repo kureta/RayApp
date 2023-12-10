@@ -32,7 +32,7 @@ void App::update(const float t, const float dt)
     if (!pause)
     {
         ballPosition.x += ballSpeed.x * dt;
-        ballPosition.y += ballSpeed.y * dt + 0.5f * 6400.0f * dt * dt;
+        ballPosition.y += ballSpeed.y * dt + 0.5f * 4000.0f * dt * dt;
         ballSpeed.y += 4000.0f * dt;
 
         // Check walls collision for bouncing
