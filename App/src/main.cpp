@@ -1,10 +1,9 @@
 #include "App.hpp"
 
-int main()
-{
-    auto app{App()};
+int main() {
+  auto app{App()};
 
-    app.main_loop();
+  app.main_loop();
 
-    return 0;
+  return 0;
 }
