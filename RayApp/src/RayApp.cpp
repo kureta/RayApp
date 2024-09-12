@@ -2,6 +2,7 @@
 
 #include "raylib.h"
 #include <config.h>
+#include <cstdio>
 #include <stack>
 
 std::stack<int> keys_released;
@@ -13,15 +14,18 @@ void get_keys_released() {
 }
 
 void RayApp::physics_loop() {
-  currentTime = static_cast<float>(GetTime());
+  seconds t{0.0};
+  seconds accumulator{0.0};
+  auto start = std::chrono::steady_clock::now();
+
   while (true) {
     // This part keeps the game running at a fixed timestep
     // independent of frame rate (which may vary).
-    const auto newTime = static_cast<float>(GetTime());
-    const float frameTime = newTime - currentTime;
-    currentTime = newTime;
+    auto end = std::chrono::steady_clock::now();
+    std::chrono::duration<double> elapsed_seconds = end - start;
+    start = end;
 
-    accumulator += frameTime;
+    accumulator += elapsed_seconds;
 
     while (accumulator >= dt) {
       update(t, dt);

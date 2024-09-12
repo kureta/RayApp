@@ -1,4 +1,5 @@
 #include "App.hpp"
+#include "RayApp.hpp"
 #include "raylib.h"
 
 #include <iostream>
@@ -34,11 +35,12 @@ void App::KeyReleased(const int key_released) {
   std::cout << "Key released: " << key_released << "\n";
 }
 
-void App::update(const float t, const float dt) {
+void App::update(const seconds t, const seconds dt) {
   if (!pause) {
-    ballPosition.x += ballSpeed.x * dt;
-    ballPosition.y += ballSpeed.y * dt + 0.5f * 4000.0f * dt * dt;
-    ballSpeed.y += 4000.0f * dt;
+    float f_dt = dt.count();
+    ballPosition.x += ballSpeed.x * f_dt;
+    ballPosition.y += ballSpeed.y * f_dt + 0.5f * 4000.0f * f_dt * f_dt;
+    ballSpeed.y += 4000.0f * f_dt;
 
     // Check walls collision for bouncing
     if (ballPosition.x >= static_cast<float>(GetScreenWidth()) - ballRadius ||

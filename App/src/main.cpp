@@ -4,7 +4,7 @@
 int main() {
   auto app{App()};
 
-  // TODO: App class should have a `start` method
+  // TODO: RayApp class should have a `start` method
   //       only that should be called here
   std::thread physicsThread(&App::physics_loop, &app);
   app.main_loop();
