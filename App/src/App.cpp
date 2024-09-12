@@ -25,13 +25,13 @@ void App::setup() {
   framesCounter = 0;
 }
 
-void App::KeyPressed(const int key_pressed) {
+void App::onKeyPressed(const int key_pressed) {
   std::cout << "Key pressed: " << key_pressed << "\n";
   if (key_pressed == KEY_SPACE)
     pause = !pause;
 }
 
-void App::KeyReleased(const int key_released) {
+void App::onKeyReleased(const int key_released) {
   std::cout << "Key released: " << key_released << "\n";
 }
 

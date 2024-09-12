@@ -4,6 +4,7 @@
 #include <config.h>
 #include <cstdio>
 #include <stack>
+#include <thread>
 
 std::stack<int> keys_released;
 void get_keys_released() {
@@ -13,12 +14,29 @@ void get_keys_released() {
   }
 }
 
+void RayApp::start() {
+  std::thread physicsThread(&RayApp::physics_loop, this);
+  graphics_loop();
+  physicsThread.detach();
+}
+
 void RayApp::physics_loop() {
   seconds t{0.0};
   seconds accumulator{0.0};
   auto start = std::chrono::steady_clock::now();
 
   while (true) {
+    if (const int key_pressed = GetKeyPressed();
+        key_pressed > 0 && key_pressed < MAX_KEYBOARD_KEYS)
+      onKeyPressed(key_pressed);
+
+    get_keys_released();
+
+    while (!keys_released.empty()) {
+      onKeyReleased(keys_released.top());
+      keys_released.pop();
+    }
+
     // This part keeps the game running at a fixed timestep
     // independent of frame rate (which may vary).
     auto end = std::chrono::steady_clock::now();
@@ -35,21 +53,10 @@ void RayApp::physics_loop() {
   }
 }
 
-void RayApp::main_loop() {
+void RayApp::graphics_loop() {
   setup();
   while (!WindowShouldClose()) // Detect window close button or ESC key
   {
-    if (const int key_pressed = GetKeyPressed();
-        key_pressed > 0 && key_pressed < MAX_KEYBOARD_KEYS)
-      KeyPressed(key_pressed);
-
-    get_keys_released();
-
-    while (!keys_released.empty()) {
-      KeyReleased(keys_released.top());
-      keys_released.pop();
-    }
-
     // This part draws the game at a possibly variable frame rate.
     BeginDrawing();
     draw();

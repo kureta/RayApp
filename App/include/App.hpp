@@ -9,8 +9,8 @@ public:
   void setup() override;
   void update(seconds t, seconds dt) override;
   void draw() const override;
-  void KeyPressed(int key_pressed) override;
-  void KeyReleased(int key_released) override;
+  void onKeyPressed(int key_pressed) override;
+  void onKeyReleased(int key_released) override;
 
 private:
   Vector2 ballPosition = {};
