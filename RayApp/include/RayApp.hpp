@@ -11,9 +11,10 @@ public:
   virtual void KeyPressed(int key_pressed) = 0;
   virtual void KeyReleased(int key_released) = 0;
   void main_loop();
+  void physics_loop();
 
 protected:
-  float dt = 0.01f;
+  const float dt = 0.01f;
 
 private:
   float t = 0.0f;

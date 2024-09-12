@@ -12,11 +12,9 @@ void get_keys_released() {
   }
 }
 
-void RayApp::main_loop() {
-  setup();
+void RayApp::physics_loop() {
   currentTime = static_cast<float>(GetTime());
-  while (!WindowShouldClose()) // Detect window close button or ESC key
-  {
+  while (true) {
     // This part keeps the game running at a fixed timestep
     // independent of frame rate (which may vary).
     const auto newTime = static_cast<float>(GetTime());
@@ -25,18 +23,27 @@ void RayApp::main_loop() {
 
     accumulator += frameTime;
 
-    if (const int key_pressed = GetKeyPressed();
-        key_pressed > 0 && key_pressed < MAX_KEYBOARD_KEYS)
-      KeyPressed(key_pressed);
-    get_keys_released();
-    while (!keys_released.empty()) {
-      KeyReleased(keys_released.top());
-      keys_released.pop();
-    }
     while (accumulator >= dt) {
       update(t, dt);
       accumulator -= dt;
       t += dt;
+    }
+  }
+}
+
+void RayApp::main_loop() {
+  setup();
+  while (!WindowShouldClose()) // Detect window close button or ESC key
+  {
+    if (const int key_pressed = GetKeyPressed();
+        key_pressed > 0 && key_pressed < MAX_KEYBOARD_KEYS)
+      KeyPressed(key_pressed);
+
+    get_keys_released();
+
+    while (!keys_released.empty()) {
+      KeyReleased(keys_released.top());
+      keys_released.pop();
     }
 
     // This part draws the game at a possibly variable frame rate.
