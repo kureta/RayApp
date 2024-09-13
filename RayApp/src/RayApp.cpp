@@ -26,17 +26,6 @@ void RayApp::physics_loop() {
   auto start = std::chrono::steady_clock::now();
 
   while (true) {
-    if (const int key_pressed = GetKeyPressed();
-        key_pressed > 0 && key_pressed < MAX_KEYBOARD_KEYS)
-      onKeyPressed(key_pressed);
-
-    get_keys_released();
-
-    while (!keys_released.empty()) {
-      onKeyReleased(keys_released.top());
-      keys_released.pop();
-    }
-
     // This part keeps the game running at a fixed timestep
     // independent of frame rate (which may vary).
     auto end = std::chrono::steady_clock::now();
@@ -57,6 +46,18 @@ void RayApp::graphics_loop() {
   setup();
   while (!WindowShouldClose()) // Detect window close button or ESC key
   {
+    // IO events are tied to this loop
+    if (const int key_pressed = GetKeyPressed();
+        key_pressed > 0 && key_pressed < MAX_KEYBOARD_KEYS)
+      onKeyPressed(key_pressed);
+
+    get_keys_released();
+
+    while (!keys_released.empty()) {
+      onKeyReleased(keys_released.top());
+      keys_released.pop();
+    }
+
     // This part draws the game at a possibly variable frame rate.
     BeginDrawing();
     draw();
