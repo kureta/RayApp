@@ -14,7 +14,7 @@ public:
 
 private:
   Vector2 ballPosition = {};
-  float ballRadius = 0.0f;
+  static constexpr float ballRadius{20.0F};
   Vector2 ballSpeed = {};
   bool pause = false;
   int framesCounter = 0;

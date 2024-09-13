@@ -18,7 +18,6 @@ void App::setup() {
   ballPosition = {static_cast<float>(GetScreenWidth()) / 2.0f,
                   ballRadius + 40.0f};
   ballSpeed = {720.0f, 0.0f};
-  ballRadius = 20.0f;
 
   // Game state initialization
   pause = false;
