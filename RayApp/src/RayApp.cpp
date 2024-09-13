@@ -21,24 +21,20 @@ void RayApp::start() {
 }
 
 void RayApp::physics_loop() {
-  seconds t{0.0};
-  seconds accumulator{0.0};
-  auto start = std::chrono::steady_clock::now();
-
   while (true) {
     // This part keeps the game running at a fixed timestep
     // independent of frame rate (which may vary).
+    auto start = std::chrono::steady_clock::now();
+    update();
+
     auto end = std::chrono::steady_clock::now();
     std::chrono::duration<double> elapsed_seconds = end - start;
-    start = end;
 
-    accumulator += elapsed_seconds;
-
-    while (accumulator >= dt) {
-      update(t, dt);
-      accumulator -= dt;
-      t += dt;
+    if (elapsed_seconds < dt) {
+      std::this_thread::sleep_for(dt - elapsed_seconds);
     }
+
+    t += dt;
   }
 }
 

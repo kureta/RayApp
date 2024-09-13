@@ -1,8 +1,7 @@
 #include "App.hpp"
-#include "RayApp.hpp"
 #include "raylib.h"
-
 #include <iostream>
+#include <unistd.h>
 
 void App::setup() {
   // Window initialization
@@ -15,9 +14,8 @@ void App::setup() {
   InitWindow(screenWidth, screenHeight, "RayApp Example");
 
   // Ball initialization
-  ballPosition = {static_cast<float>(GetScreenWidth()) / 2.0f,
-                  ballRadius + 40.0f};
-  ballSpeed = {720.0f, 0.0f};
+  ballPosition = {ballRadius, ballRadius + 40.0};
+  ballSpeed = {1200.0, 0.0};
 
   // Game state initialization
   pause = false;
@@ -34,24 +32,25 @@ void App::onKeyReleased(const int key_released) {
   std::cout << "Key released: " << key_released << "\n";
 }
 
-void App::update(const seconds t, const seconds dt) {
+void App::update() {
   if (!pause) {
-    float f_dt = dt.count();
-    ballPosition.x += ballSpeed.x * f_dt;
-    ballPosition.y += ballSpeed.y * f_dt + 0.5f * 4000.0f * f_dt * f_dt;
-    ballSpeed.y += 4000.0f * f_dt;
+    double dt_double = dt.count();
+    ballPosition.x += ballSpeed.x * dt_double;
+    ballPosition.y +=
+        ballSpeed.y * dt_double + 0.5 * 4000.0 * dt_double * dt_double;
+    ballSpeed.y += 4000.0 * dt_double;
 
     // Check walls collision for bouncing
-    if (ballPosition.x >= static_cast<float>(GetScreenWidth()) - ballRadius ||
+    if (ballPosition.x >= static_cast<double>(GetScreenWidth()) - ballRadius ||
         ballPosition.x <= ballRadius) {
-      ballSpeed.x *= -1.0f;
+      ballSpeed.x *= -1.0;
     }
-    if (ballPosition.y >= static_cast<float>(GetScreenHeight()) - ballRadius) {
-      ballPosition.y = static_cast<float>(GetScreenHeight()) - ballRadius;
-      ballSpeed.y *= -1.0f;
+    if (ballPosition.y >= static_cast<double>(GetScreenHeight()) - ballRadius) {
+      ballPosition.y = static_cast<double>(GetScreenHeight()) - ballRadius;
+      ballSpeed.y *= -1.0;
     } else if (ballPosition.y <= ballRadius) {
       ballPosition.y = ballRadius;
-      ballSpeed.y *= -1.0f;
+      ballSpeed.y *= -1.0;
     }
   } else
     framesCounter++;
@@ -64,6 +63,7 @@ void App::draw() const {
   DrawText("PRESS SPACE to PAUSE BALL MOVEMENT", 10, GetScreenHeight() - 25, 20,
            LIGHTGRAY);
 
+  DrawText(TextFormat("t = %.2f", t), 350, 200, 30, GRAY);
   // On pause, we draw a blinking message
   if (pause && framesCounter / 30 % 2)
     DrawText("PAUSED", 350, 200, 30, GRAY);

@@ -11,12 +11,13 @@ public:
 protected:
   virtual ~RayApp() = default;
   virtual void setup() = 0;
-  virtual void update(seconds t, seconds dt) = 0;
+  virtual void update() = 0;
   virtual void draw() const = 0;
   virtual void onKeyPressed(int key_pressed) = 0;
   virtual void onKeyReleased(int key_released) = 0;
 
   const seconds dt{0.01};
+  seconds t{0.0};
 
 private:
   void graphics_loop();
