@@ -6,7 +6,7 @@ using seconds = std::chrono::duration<double>;
 
 class RayApp {
 public:
-  void start();
+  void run();
 
 protected:
   virtual ~RayApp() = default;
@@ -20,7 +20,6 @@ protected:
   seconds t{0.0};
 
 private:
-  void graphics_loop();
   void physics_loop();
 };
 

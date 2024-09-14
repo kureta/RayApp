@@ -2,7 +2,7 @@
 
 int main() {
   auto app{App()};
-  app.start();
+  app.run();
 
   return 0;
 }

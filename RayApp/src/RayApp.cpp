@@ -14,12 +14,6 @@ void get_keys_released() {
   }
 }
 
-void RayApp::start() {
-  std::thread physicsThread(&RayApp::physics_loop, this);
-  graphics_loop();
-  physicsThread.detach();
-}
-
 void RayApp::physics_loop() {
   while (true) {
     // This part keeps the game running at a fixed timestep
@@ -34,12 +28,16 @@ void RayApp::physics_loop() {
       std::this_thread::sleep_for(dt - elapsed_seconds);
     }
 
+    // TODO: What happens if there is a temporary delay in physics calculations
+    //       end dt has to be greater than constant dt?
     t += dt;
   }
 }
 
-void RayApp::graphics_loop() {
+void RayApp::run() {
   setup();
+  std::thread physicsThread(&RayApp::physics_loop, this);
+
   while (!WindowShouldClose()) // Detect window close button or ESC key
   {
     // IO events are tied to this loop
@@ -61,4 +59,5 @@ void RayApp::graphics_loop() {
   }
 
   CloseWindow();
+  physicsThread.detach();
 }
