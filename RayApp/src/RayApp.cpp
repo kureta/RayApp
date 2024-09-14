@@ -3,11 +3,9 @@
 #include "raylib.h"
 #include <config.h>
 #include <cstdio>
-#include <stack>
 #include <thread>
 
-std::stack<int> keys_released;
-void get_keys_released() {
+void RayApp::get_keys_released() {
   for (int i = 1; i < MAX_KEYBOARD_KEYS; ++i) {
     if (IsKeyReleased(i))
       keys_released.push(i);
