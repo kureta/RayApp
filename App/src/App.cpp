@@ -19,7 +19,6 @@ void App::setup() {
 
   // Game state initialization
   pause = false;
-  framesCounter = 0;
 }
 
 void App::onKeyPressed(const int key_pressed) {

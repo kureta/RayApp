@@ -17,7 +17,6 @@ private:
   static constexpr double ballRadius{20.0};
   Vector2 ballSpeed = {};
   bool pause = false;
-  int framesCounter = 0;
 };
 
 #endif // APP_HPP

@@ -8,6 +8,9 @@ class RayApp {
 public:
   void run();
 
+private:
+  void physics_loop();
+
 protected:
   virtual ~RayApp() = default;
   virtual void setup() = 0;
@@ -18,9 +21,7 @@ protected:
 
   const seconds dt{0.01};
   seconds t{0.0};
-
-private:
-  void physics_loop();
+  int framesCounter = 0;
 };
 
 #endif // RAYAPP_H
