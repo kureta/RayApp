@@ -1,7 +1,5 @@
 #include "App.hpp"
-#include "raylib.h"
 #include <iostream>
-#include <unistd.h>
 
 void App::setup() {
   // Window initialization
@@ -31,28 +29,31 @@ void App::onKeyReleased(const int key_released) {
   std::cout << "Key released: " << key_released << "\n";
 }
 
+// Anything that will be accessed from both update and draw should be atomic
 void App::update() {
   if (!pause) {
+    auto bp = ballPosition.load();
     double dt_double = dt.count();
-    ballPosition.x += ballSpeed.x * dt_double;
-    ballPosition.y +=
-        ballSpeed.y * dt_double + 0.5 * 4000.0 * dt_double * dt_double;
+    bp.x += ballSpeed.x * dt_double;
+    bp.y += ballSpeed.y * dt_double + 0.5 * 4000.0 * dt_double * dt_double;
     ballSpeed.y += 4000.0 * dt_double;
 
     // Check walls collision for bouncing
-    if (ballPosition.x >= static_cast<double>(GetScreenWidth()) - ballRadius ||
-        ballPosition.x <= ballRadius) {
+    if (bp.x >= static_cast<double>(GetScreenWidth()) - ballRadius ||
+        bp.x <= ballRadius) {
       ballSpeed.x *= -1.0;
     }
-    if (ballPosition.y >= static_cast<double>(GetScreenHeight()) - ballRadius) {
-      ballPosition.y = static_cast<double>(GetScreenHeight()) - ballRadius;
+    if (bp.y >= static_cast<double>(GetScreenHeight()) - ballRadius) {
+      bp.y = static_cast<double>(GetScreenHeight()) - ballRadius;
       ballSpeed.y *= -1.0;
-    } else if (ballPosition.y <= ballRadius) {
-      ballPosition.y = ballRadius;
+    } else if (bp.y <= ballRadius) {
+      bp.y = ballRadius;
       ballSpeed.y *= -1.0;
     }
-  } else
-    framesCounter++;
+
+    // Update atomic ballPosition
+    ballPosition.store(bp);
+  }
 }
 
 void App::draw() const {
@@ -62,7 +63,7 @@ void App::draw() const {
   DrawText("PRESS SPACE to PAUSE BALL MOVEMENT", 10, GetScreenHeight() - 25, 20,
            LIGHTGRAY);
 
-  DrawText(TextFormat("t = %.2f", t), 350, 200, 30, GRAY);
+  DrawText(TextFormat("t = %.2f", t.load()), 350, 200, 30, GRAY);
   // On pause, we draw a blinking message
   if (pause && framesCounter / 30 % 2)
     DrawText("PAUSED", 350, 200, 30, GRAY);

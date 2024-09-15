@@ -9,11 +9,11 @@ public:
   void setup() override;
   void update() override;
   void draw() const override;
-  void onKeyPressed(const int key_pressed) override;
-  void onKeyReleased(const int key_released) override;
+  void onKeyPressed(int key_pressed) override;
+  void onKeyReleased(int key_released) override;
 
 private:
-  Vector2 ballPosition = {};
+  std::atomic<Vector2> ballPosition = {};
   static constexpr double ballRadius{20.0};
   Vector2 ballSpeed = {};
   bool pause = false;

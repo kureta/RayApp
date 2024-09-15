@@ -2,7 +2,6 @@
 
 #include "raylib.h"
 #include <config.h>
-#include <cstdio>
 #include <thread>
 
 void RayApp::get_keys_released() {
@@ -13,7 +12,7 @@ void RayApp::get_keys_released() {
 }
 
 void RayApp::physics_loop() {
-  while (true) {
+  while (running) {
     // This part keeps the game running at a fixed timestep
     // independent of frame rate (which may vary).
     auto start = std::chrono::steady_clock::now();
@@ -28,7 +27,9 @@ void RayApp::physics_loop() {
 
     // TODO: What happens if there is a temporary delay in physics calculations
     //       end dt has to be greater than constant dt?
-    t += dt;
+    auto current_t = t.load();
+    auto next_t = current_t + dt;
+    t.store(next_t);
   }
 }
 
@@ -54,8 +55,12 @@ void RayApp::run() {
     BeginDrawing();
     draw();
     EndDrawing();
+    framesCounter++;
   }
 
+  running = false; // signal the thread to exit
+  if (physicsThread.joinable()) {
+    physicsThread.join(); // wait for the thread to finish
+  }
   CloseWindow();
-  physicsThread.detach();
 }
