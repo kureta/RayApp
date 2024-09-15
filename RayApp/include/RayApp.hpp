@@ -10,7 +10,6 @@ using seconds = std::chrono::duration<double>;
 class RayApp {
 public:
   void run();
-  virtual ~RayApp();
 
 private:
   void physics_loop();
@@ -21,6 +20,7 @@ private:
   void stopPhysicsThread();
 
 protected:
+  virtual ~RayApp();
   virtual void setup() = 0;
   virtual void update() = 0;
   virtual void draw() const = 0;
