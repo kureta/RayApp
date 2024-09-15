@@ -13,7 +13,7 @@ public:
 private:
   void physics_loop();
   void get_keys_released();
-  std::stack<int> keys_released;
+  std::stack<int> keys_released{};
   std::atomic<bool> running = true;
 
 protected:
