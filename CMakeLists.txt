@@ -1,5 +1,10 @@
-cmake_minimum_required(VERSION 3.27)
-project(RayAppExample)
+cmake_minimum_required(VERSION 3.28)
+project(
+  RayAppExample
+  VERSION 0.1
+  DESCRIPTION "Quick template for using raylib."
+  LANGUAGES CXX
+)
 
 # Set global C++ standard
 set(CMAKE_CXX_STANDARD 20)

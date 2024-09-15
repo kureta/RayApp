@@ -1,6 +1,6 @@
 # lint_cmake: -readability/wonkycase
-cmake_minimum_required(VERSION 3.27)
-project(RayApp)
+cmake_minimum_required(VERSION 3.28)
+set(NAME "RayApp")
 
 set(RAYLIB_VERSION 5.0)
 set(RAYLIB_BASE_URL https://github.com/raysan5/raylib/archive/refs/tags)
@@ -20,13 +20,13 @@ if(NOT raylib_FOUND)
   endif()
 endif()
 
-add_library(${PROJECT_NAME} src/RayApp.cpp)
+add_library(${NAME} src/RayApp.cpp)
 
-target_include_directories(${PROJECT_NAME} PUBLIC include)
-target_link_libraries(${PROJECT_NAME} PUBLIC raylib)
+target_include_directories(${NAME} PUBLIC include)
+target_link_libraries(${NAME} PUBLIC raylib)
 
 # Apply common target properties
-set_common_target_properties(${PROJECT_NAME})
+set_common_target_properties(${NAME})
 
 message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 message(STATUS "Raylib version: ${RAYLIB_VERSION}")
