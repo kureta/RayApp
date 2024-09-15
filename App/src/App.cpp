@@ -70,3 +70,5 @@ void App::draw() const {
 
   DrawFPS(10, 10);
 }
+
+App::~App() {}

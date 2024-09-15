@@ -2,7 +2,6 @@
 
 #include "raylib.h"
 #include <config.h>
-#include <thread>
 
 void RayApp::get_keys_released() {
   for (int i = 1; i < MAX_KEYBOARD_KEYS; ++i) {
@@ -35,7 +34,7 @@ void RayApp::physics_loop() {
 
 void RayApp::run() {
   setup();
-  std::thread physicsThread(&RayApp::physics_loop, this);
+  physicsThread = std::thread(&RayApp::physics_loop, this);
 
   while (!WindowShouldClose()) // Detect window close button or ESC key
   {
@@ -58,9 +57,15 @@ void RayApp::run() {
     framesCounter++;
   }
 
+  stopPhysicsThread();
+  CloseWindow();
+}
+
+void RayApp::stopPhysicsThread() {
   running = false; // signal the thread to exit
   if (physicsThread.joinable()) {
     physicsThread.join(); // wait for the thread to finish
   }
-  CloseWindow();
 }
+
+RayApp::~RayApp() { stopPhysicsThread(); }

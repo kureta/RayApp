@@ -3,21 +3,24 @@
 #include <atomic>
 #include <chrono>
 #include <stack>
+#include <thread>
 
 using seconds = std::chrono::duration<double>;
 
 class RayApp {
 public:
   void run();
+  virtual ~RayApp();
 
 private:
   void physics_loop();
   void get_keys_released();
   std::stack<int> keys_released{};
   std::atomic<bool> running = true;
+  std::thread physicsThread;
+  void stopPhysicsThread();
 
 protected:
-  virtual ~RayApp() = default;
   virtual void setup() = 0;
   virtual void update() = 0;
   virtual void draw() const = 0;

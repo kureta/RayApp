@@ -6,13 +6,15 @@
 
 class App final : public RayApp {
 public:
+  ~App() override;
+
+private:
   void setup() override;
   void update() override;
   void draw() const override;
   void onKeyPressed(int key_pressed) override;
   void onKeyReleased(int key_released) override;
 
-private:
   std::atomic<Vector2> ballPosition = {};
   static constexpr double ballRadius{20.0};
   Vector2 ballSpeed = {};
