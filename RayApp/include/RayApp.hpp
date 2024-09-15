@@ -2,10 +2,11 @@
 #define RAYAPP_H
 #include <atomic>
 #include <chrono>
+#include <ratio>
 #include <stack>
 #include <thread>
 
-using seconds = std::chrono::duration<double>;
+using seconds = std::chrono::duration<double, std::ratio<1>>;
 
 class RayApp {
 public:

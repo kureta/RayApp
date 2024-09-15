@@ -1,6 +1,7 @@
 #include "RayApp.hpp"
 
 #include "raylib.h"
+#include <chrono>
 #include <config.h>
 
 void RayApp::get_keys_released() {
@@ -11,24 +12,26 @@ void RayApp::get_keys_released() {
 }
 
 void RayApp::physics_loop() {
+  auto start = std::chrono::system_clock::now();
   while (running) {
     // This part keeps the game running at a fixed timestep
     // independent of frame rate (which may vary).
-    auto start = std::chrono::steady_clock::now();
-    update();
+    auto end = std::chrono::system_clock::now();
+    seconds elapsed_seconds = seconds(end - start);
 
-    auto end = std::chrono::steady_clock::now();
-    std::chrono::duration<double> elapsed_seconds = end - start;
-
-    if (elapsed_seconds < dt) {
+    if (elapsed_seconds < dt)
       std::this_thread::sleep_for(dt - elapsed_seconds);
-    }
 
-    // TODO: What happens if there is a temporary delay in physics calculations
-    //       end dt has to be greater than constant dt?
-    auto current_t = t.load();
-    auto next_t = current_t + dt;
-    t.store(next_t);
+    while (elapsed_seconds >= dt) {
+      update();
+      elapsed_seconds -= dt;
+      // TODO: find some way to do this without typecasting.
+      //       ex. use long duration in nano seconds or what ever is the default
+      //       resolution
+      start +=
+          std::chrono::duration_cast<std::chrono::system_clock::duration>(dt);
+      t.store(t.load() + dt);
+    }
   }
 }
 
