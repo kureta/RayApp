@@ -24,6 +24,7 @@ private:
   void get_keys_released();
   void main_loop();
   void physics_loop();
+  void compute_loop();
   void stopPhysicsThread();
 
 protected:

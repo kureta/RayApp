@@ -13,7 +13,6 @@ void RayApp::get_keys_released() {
 void RayApp::physics_loop() {
   using clock = std::chrono::high_resolution_clock;
 
-  // TODO: Allow updating physics as fast as possible
   auto start = clock::now();
   while (running) {
     // This part keeps the game running at a fixed timestep
@@ -33,6 +32,12 @@ void RayApp::physics_loop() {
       start += std::chrono::duration_cast<clock::duration>(dt);
       t.store(t.load() + dt);
     }
+  }
+}
+
+void RayApp::compute_loop() {
+  while (running) {
+    update();
   }
 }
 
@@ -60,7 +65,11 @@ void RayApp::main_loop() {
 }
 void RayApp::run() {
   setup();
-  physicsThread = std::thread(&RayApp::physics_loop, this);
+  if (dt.count() > 0.0) {
+    physicsThread = std::thread(&RayApp::physics_loop, this);
+  } else {
+    physicsThread = std::thread(&RayApp::compute_loop, this);
+  }
 
   main_loop();
 
