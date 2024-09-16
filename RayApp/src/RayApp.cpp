@@ -12,6 +12,7 @@ void RayApp::get_keys_released() {
 
 void RayApp::physics_loop() {
   auto start = std::chrono::system_clock::now();
+  // TODO: Allow updating physics as fast as possible
   while (running) {
     // This part keeps the game running at a fixed timestep
     // independent of frame rate (which may vary).
