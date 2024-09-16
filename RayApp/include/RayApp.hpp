@@ -3,11 +3,10 @@
 #include "raylib.h"
 #include <atomic>
 #include <chrono>
-#include <ratio>
 #include <stack>
 #include <thread>
 
-using seconds = std::chrono::duration<double, std::ratio<1>>;
+using seconds = std::chrono::duration<double>;
 
 class RayApp {
 public:

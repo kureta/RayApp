@@ -11,12 +11,14 @@ void RayApp::get_keys_released() {
 }
 
 void RayApp::physics_loop() {
-  auto start = std::chrono::system_clock::now();
+  using clock = std::chrono::high_resolution_clock;
+
   // TODO: Allow updating physics as fast as possible
+  auto start = clock::now();
   while (running) {
     // This part keeps the game running at a fixed timestep
     // independent of frame rate (which may vary).
-    auto end = std::chrono::system_clock::now();
+    auto end = clock::now();
     seconds elapsed_seconds = seconds(end - start);
 
     if (elapsed_seconds < dt)
@@ -28,8 +30,7 @@ void RayApp::physics_loop() {
       // TODO: find some way to do this without typecasting.
       //       ex. use long duration in nano seconds or what ever is the default
       //       resolution
-      start +=
-          std::chrono::duration_cast<std::chrono::system_clock::duration>(dt);
+      start += std::chrono::duration_cast<clock::duration>(dt);
       t.store(t.load() + dt);
     }
   }
