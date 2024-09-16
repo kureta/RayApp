@@ -3,8 +3,6 @@
 
 void App::setup() {
   // Window initialization
-  SetTargetFPS(60); // Set our game to run at 60 frames-per-second
-
   constexpr int screenWidth = 1280;
   constexpr int screenHeight = 720;
 

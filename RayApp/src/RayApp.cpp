@@ -1,6 +1,5 @@
 #include "RayApp.hpp"
 
-#include "raylib.h"
 #include <chrono>
 #include <config.h>
 
@@ -35,10 +34,7 @@ void RayApp::physics_loop() {
   }
 }
 
-void RayApp::run() {
-  setup();
-  physicsThread = std::thread(&RayApp::physics_loop, this);
-
+void RayApp::main_loop() {
   while (!WindowShouldClose()) // Detect window close button or ESC key
   {
     // IO events are tied to this loop
@@ -59,6 +55,12 @@ void RayApp::run() {
     EndDrawing();
     framesCounter++;
   }
+}
+void RayApp::run() {
+  setup();
+  physicsThread = std::thread(&RayApp::physics_loop, this);
+
+  main_loop();
 
   stopPhysicsThread();
   CloseWindow();

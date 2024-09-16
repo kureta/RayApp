@@ -2,10 +2,10 @@
 #define APP_HPP
 
 #include "RayApp.hpp"
-#include "raylib.h"
 
 class App final : public RayApp {
 public:
+  using RayApp::RayApp;
   ~App() override;
 
 private:
