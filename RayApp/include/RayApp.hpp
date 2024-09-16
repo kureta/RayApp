@@ -28,7 +28,7 @@ protected:
   virtual void onKeyPressed(int key_pressed) = 0;
   virtual void onKeyReleased(int key_released) = 0;
 
-  const seconds dt{0.01};
+  const seconds dt{1.0 / 120.0};
   std::atomic<seconds> t{seconds(0.0)};
   int framesCounter = 0;
 };
