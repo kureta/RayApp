@@ -1,6 +1,8 @@
 #include "App.hpp"
 #include <iostream>
 
+#define g 4000.0
+
 void App::setup() {
   // Window initialization
   constexpr int screenWidth = 1280;
@@ -33,8 +35,8 @@ void App::update() {
     auto bp = ballPosition.load();
     double dt_double = dt.count();
     bp.x += ballSpeed.x * dt_double;
-    bp.y += ballSpeed.y * dt_double + 0.5 * 4000.0 * dt_double * dt_double;
-    ballSpeed.y += 4000.0 * dt_double;
+    bp.y += ballSpeed.y * dt_double + 0.5 * g * dt_double * dt_double;
+    ballSpeed.y += g * dt_double;
 
     // Check walls collision for bouncing
     if (bp.x >= static_cast<double>(GetScreenWidth()) - ballRadius ||

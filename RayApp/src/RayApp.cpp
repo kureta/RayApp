@@ -10,6 +10,8 @@ void RayApp::get_keys_released() {
   }
 }
 
+// `physics_loop` calls update with constant `dt`
+// waits till it fills, calls multiple times if more than `dt` time has passed
 void RayApp::physics_loop() {
   using clock = std::chrono::high_resolution_clock;
 
@@ -35,6 +37,8 @@ void RayApp::physics_loop() {
   }
 }
 
+// `compute_loop` just calls update as fast as possible.
+// Possibly dangerous
 void RayApp::compute_loop() {
   while (running) {
     update();
